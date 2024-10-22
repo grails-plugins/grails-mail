@@ -30,32 +30,33 @@ dependencies {
     compileOnlyApi libs.javamail.api // Used in public api
 
     api libs.spring.context // Used in public api
-    api libs.spring.context.support // Used in public api
+    api libs.spring.contextSupport // Used in public api
 
     // These two libraries are used in public api, but not in a way
     // that is meant to be consumed by users of the plugin.
     // Therefore they are set to implementation to not expose unnecessarily
     // to the compileClasspath of plugin users.
-    implementation libs.grails.gsp
-    implementation libs.grails.web.common
+    implementation libs.grails.gsp.core
+    implementation libs.grails.webCommon
 
+    implementation libs.grails.gsp.webTaglib
+    implementation libs.grails.webUrlmappings
     implementation libs.javamail.impl // Needs to be implementation (not runtimeOnly), as SMTPMessage is used in MailMessageBuilder
-    implementation libs.springboot.autoconfigure
-    implementation libs.grails.web.urlmappings
     implementation libs.spring.beans
+    implementation libs.springboot.autoconfigure
 
     testRuntimeOnly libs.slf4j.simple
 
     testImplementation libs.servlet.api
-    testImplementation libs.grails.testing.support.core
+    testImplementation libs.grails.testingSupport.core
     testImplementation libs.spock.core
 
     integrationTestImplementation libs.greenmail
     integrationTestImplementation libs.groovy.xml
     integrationTestImplementation libs.spring.web
 
-    integrationTestRuntimeOnly libs.springboot.starter.tomcat
-    integrationTestRuntimeOnly libs.grails.testing.support.web
+    integrationTestRuntimeOnly libs.springboot.starterTomcat
+    integrationTestRuntimeOnly libs.grails.testingSupport.web
 }
 
 tasks.withType(Test).configureEach {
