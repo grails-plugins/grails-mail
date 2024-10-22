@@ -1,6 +1,6 @@
 [versions]
 grails = '7.0.0-SNAPSHOT'
-greenmail = '2.0.1'
+greenmail = '2.1.0'
 
 [libraries]
 grails-bom = { module = 'org.grails:grails-bom', version.ref = 'grails' }
