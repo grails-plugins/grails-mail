@@ -15,10 +15,10 @@
  */
 package grails.plugins.mail
 
-import com.sun.mail.smtp.SMTPMessage
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.eclipse.angus.mail.smtp.SMTPMessage
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamSource
