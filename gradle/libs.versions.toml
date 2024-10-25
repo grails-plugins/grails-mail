@@ -20,7 +20,6 @@ servlet-api = { module = 'jakarta.servlet:jakarta.servlet-api' }
 javamail-api = { module = 'jakarta.mail:jakarta.mail-api' }
 javamail-impl = { module = 'org.eclipse.angus:jakarta.mail' }
 slf4j-nop = { module = 'org.slf4j:slf4j-nop' }
-slf4j-simple = { module = 'org.slf4j:slf4j-simple' }
 spock-core = { module = 'org.spockframework:spock-core' }
 spring-beans = { module = 'org.springframework:spring-beans' }
 spring-context = { module = 'org.springframework:spring-context' }
