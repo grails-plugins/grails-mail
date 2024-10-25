@@ -45,8 +45,6 @@ dependencies {
     implementation libs.spring.beans
     implementation libs.springboot.autoconfigure
 
-    testRuntimeOnly libs.slf4j.simple
-
     testImplementation libs.servlet.api
     testImplementation libs.grails.testingSupport.core
     testImplementation libs.spock.core
