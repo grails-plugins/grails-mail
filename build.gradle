@@ -8,7 +8,7 @@ plugins {
 
 version = projectVersion
 group = 'org.grails.plugins'
-ext.set('grailsVersion', libs.versions.grails.asProvider().get())
+ext.set('grailsVersion', libs.versions.grails.get())
 ext.set('isReleaseVersion', !version.toString().endsWith('-SNAPSHOT'))
 ext.set('isSnapshot', !isReleaseVersion)
 
@@ -21,43 +21,48 @@ repositories {
 
 dependencies {
 
-    compileOnly libs.grails.core // Used in public api, but provided
-    compileOnly libs.groovy.core // Used in public api, but provided
-    compileOnly libs.servlet.api // Provided
+    implementation(platform(libs.grails.bom))
 
-    api libs.javamail.api // Used in public api
+    compileOnly libs.servlet.api // Provided by the servlet container
+    compileOnly libs.grails.core // Provided as this is a Grails plugin
+    compileOnly libs.groovy.core // Used in public api, but Groovy is always provided
+
+    compileOnlyApi libs.javamail.api // Used in public api
+
     api libs.spring.context // Used in public api
-    api libs.spring.context.support // Used in public api
+    api libs.spring.contextSupport // Used in public api
 
     // These two libraries are used in public api, but not in a way
     // that is meant to be consumed by users of the plugin.
     // Therefore they are set to implementation to not expose unnecessarily
     // to the compileClasspath of plugin users.
-    implementation libs.grails.gsp
-    implementation libs.grails.web.common
+    implementation libs.grails.gsp.core
+    implementation libs.grails.webCommon
 
-    implementation libs.grails.web.urlmappings
-    implementation libs.javamail.impl
+    implementation libs.grails.gsp.webTaglib
+    implementation libs.grails.webUrlmappings
+    implementation libs.javamail.impl // Needs to be implementation (not runtimeOnly), as SMTPMessage is used in MailMessageBuilder
     implementation libs.spring.beans
     implementation libs.springboot.autoconfigure
 
-    testImplementation libs.grails.testing.support.core
+    testRuntimeOnly libs.slf4j.simple
+
     testImplementation libs.servlet.api
+    testImplementation libs.grails.testingSupport.core
     testImplementation libs.spock.core
 
-    integrationTestImplementation libs.groovy.xml
     integrationTestImplementation libs.greenmail
+    integrationTestImplementation libs.groovy.xml
     integrationTestImplementation libs.spring.web
 
-    integrationTestRuntimeOnly libs.grails.testing.support.web
-    integrationTestRuntimeOnly libs.slf4j.nop // Get rid of warning about missing slf4j implementation during test task
-    integrationTestRuntimeOnly libs.springboot.starter.tomcat
+    integrationTestRuntimeOnly libs.springboot.starterTomcat
+    integrationTestRuntimeOnly libs.grails.testingSupport.web
 }
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
     testLogging {
-        events 'passed', 'skipped', 'failed'
+        events 'passed', 'skipped', 'failed', 'standardError', 'standardOut'
     }
 }
 
