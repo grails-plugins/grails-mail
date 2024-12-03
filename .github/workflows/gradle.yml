@@ -6,6 +6,10 @@ on:
   pull_request:
     branches:
       - '[4-9]+.[0-9]+.x'
+env:
+  GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+  GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
+
 jobs:
   test_project:
     name: "Test Project"
@@ -65,7 +69,7 @@ jobs:
         uses: micronaut-projects/github-pages-deploy-action@grails
         env:
           BRANCH: gh-pages
-          COMMIT_EMAIL: ${{ vars.GIT_USER_EMAIL }}
-          COMMIT_NAME: ${{ vars.GIT_USER_NAME }}
+          COMMIT_EMAIL: ${{ env.GIT_USER_EMAIL }}
+          COMMIT_NAME: ${{ env.GIT_USER_NAME }}
           FOLDER: build/docs/manual
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

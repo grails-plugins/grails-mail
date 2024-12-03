@@ -2,6 +2,9 @@ name: "Release"
 on:
   release:
     types: [published]
+env:
+  GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+  GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -26,7 +29,6 @@ jobs:
         env:
           SECRING_FILE: ${{ secrets.SECRING_FILE }}
         run: echo $SECRING_FILE | base64 -d > ${{ github.workspace }}/secring.gpg
-
       - name: "📤 Publish artifacts to Sonatype"
         id: publish_to_sonatype
         env:
@@ -48,8 +50,8 @@ jobs:
         uses: micronaut-projects/github-pages-deploy-action@grails
         env:
           BRANCH: gh-pages
-          COMMIT_EMAIL: ${{ vars.GIT_USER_EMAIL }}
-          COMMIT_NAME: ${{ vars.GIT_USER_NAME }}
+          COMMIT_EMAIL: ${{ env.GIT_USER_EMAIL }}
+          COMMIT_NAME: ${{ env.GIT_USER_NAME }}
           FOLDER: build/docs/manual
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           VERSION: ${{ steps.release_version.outputs.release_version }}
