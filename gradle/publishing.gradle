@@ -6,7 +6,7 @@ ext.set('signing.password', findProperty('signing.password') ?: System.getenv('S
 def javaComponent = components.named('java')
 publishing {
     publications {
-        register('grailsMailPlugin', MavenPublication) {
+        create('grailsMailPlugin', MavenPublication) {
             from javaComponent.get()
             versionMapping {
                 usage('java-api') { fromResolutionOf('runtimeClasspath') }
