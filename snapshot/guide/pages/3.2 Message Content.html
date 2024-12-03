@@ -11,7 +11,7 @@
 
         gtag('config', 'UA-82213539-2');
     </script>
-    <title>3.2 Message Content 4.0.1-SNAPSHOT</title>
+    <title>3.2 Message Content 5.0.0-SNAPSHOT</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -81,7 +81,7 @@ function addJsClass() {
                 <div class="project">
                     <h1>3.2 Message Content</h1>
 
-                    <p><strong>Version:</strong> 4.0.1-SNAPSHOT</p>
+                    <p><strong>Version:</strong> 5.0.0-SNAPSHOT</p>
                 </div>
 
                 
@@ -114,12 +114,9 @@ As of version 1.0, the <code>body</code> method that could be used to specify th
     subject <span class="java&#45;quote">"Hello John"</span>
     text view: <span class="java&#45;quote">"/emails/text&#45;hello"</span>, model: &#91;param1: <span class="java&#45;quote">"value1"</span>, param2: <span class="java&#45;quote">"value2"</span>&#93;
     html view: <span class="java&#45;quote">"/emails/html&#45;hello"</span>, model: &#91;param1: <span class="java&#45;quote">"value1"</span>, param2: <span class="java&#45;quote">"value2"</span>&#93;
-&#125;</pre></div><p class="paragraph"/><h3>Using Views</h3><p class="paragraph"/>Both the <code>text</code> and <code>html</code> methods support specifying a view to render to form the content. These are the accepted parameters:
-<ul class="star">
-<li>The  <em class="italic">view</em>  is the absolute path (or relative to the current controller if during a request) to the GSP, just like the existing Grails <code>render</code> method.</li>
-<li>The  <em class="italic">plugin</em>  parameter is only necessary if the  view you wish to render comes from a plugin, just like the existing Grails <code>render</code> method.</li>
-<li>The  <em class="italic">model</em>  parameter is a map representing the model the GSP will see for rendering data, just like the existing Grails <code>render</code> method.</li>
-</ul><p class="paragraph"/>
+&#125;</pre></div><p class="paragraph"/><h3>Using Views</h3><p class="paragraph"/>Both the <code>text</code> and <code>html</code> methods support specifying a view to render to form the content. These are the accepted parameters:<p class="paragraph"/>* The  <em class="italic">view</em>  is the absolute path (or relative to the current controller if during a request) to the GSP, just like the existing Grails <code>render</code> method.
+* The  <em class="italic">plugin</em>  parameter is only necessary if the  view you wish to render comes from a plugin, just like the existing Grails <code>render</code> method.
+* The  <em class="italic">model</em>  parameter is a map representing the model the GSP will see for rendering data, just like the existing Grails <code>render</code> method.
 
 
                 <div style="clear:both;margin-top:15px;"></div>
