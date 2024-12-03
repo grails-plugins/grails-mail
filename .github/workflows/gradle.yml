@@ -7,8 +7,8 @@ on:
     branches:
       - '[4-9]+.[0-9]+.x'
 env:
-  GIT_USER_NAME: puneetbehl
-  GIT_USER_EMAIL: behlp@unityfoundation.io
+  GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+  GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
 
 jobs:
 
