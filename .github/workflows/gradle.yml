@@ -7,8 +7,8 @@ on:
     branches:
       - '[4-9]+.[0-9]+.x'
 env:
-  GIT_USER_NAME: grails-build
-  GIT_USER_EMAIL: grails-build@users.noreply.github.com
+  GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+  GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
 
 jobs:
 
@@ -48,7 +48,7 @@ jobs:
 
       - name: Build Project
         env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCEESS_KEY }}
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
         run: ./gradlew build
 
       - name: Publish Snapshot version to Artifactory (repo.grails.org)
