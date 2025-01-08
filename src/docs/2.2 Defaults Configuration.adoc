@@ -1,0 +1,18 @@
+=== Defaults Configuration
+
+You can set various _default_ settings via the application configuration that will be used in the absence of explicit
+values when sending email.
+
+You can also set the default "from" address to use for messages in `application.groovy` using:
+
+[source,groovy]
+----
+grails.mail.default.from = 'server@yourhost.com'
+----
+
+You can also set the default "to" address to use for messages in `application.groovy` using:
+
+[source,groovy]
+----
+grails.mail.default.to = 'user@yourhost.com'
+----

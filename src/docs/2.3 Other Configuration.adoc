@@ -1,0 +1,27 @@
+=== Disabling Email Sending
+
+You can completely disable the sending of email by setting:
+
+[source,groovy]
+----
+grails.mail.disabled = true
+----
+
+You may want to set this value for the development and/or test environments. However, this will treat any call to
+`mailService.sendMail()` as a no-op which means that the mail plugin will not attempt to render the email message or
+assemble any attachments. This can hide issues such as incorrect view names, invalid or non-existent configuration
+during development.
+
+Consider using the https://github.com/gpc/greenmail[Greenmail Plugin] which allows you to start an in memory test SMTP
+server for local development. This allows you to test more of your code.
+
+=== Overriding Addresses
+
+An alternative to disabling email or using something like the http://www.grails.org/plugin/greenmail[Greenmail Plugin]
+, is to use the `overrideAddress` config setting for your development and/or test environment to force all email to be
+delivered to a specific address, regardless of what the addresses were at send time:
+
+[source,groovy]
+----
+grails.mail.overrideAddress = 'test@address.com'
+----
