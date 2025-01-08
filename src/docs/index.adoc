@@ -1,0 +1,20 @@
+= Grails Mail Plugin
+
+[#introduction]
+include::1. Introduction.adoc[]
+
+[#configuration]
+== Configuration
+include::2.1 SMTP Server Configuration.adoc[]
+include::2.2 Defaults Configuration.adoc[]
+include::2.3 Other Configuration.adoc[]
+
+[[sendingEmails]]
+include::3. Sending Email.adoc[]
+include::3.1 Sender And Recipient.adoc[]
+include::3.2 Message Content.adoc[]
+include::3.3 Attachments.adoc[]
+
+[[testing]]
+include::4. Testing.adoc[]
+
