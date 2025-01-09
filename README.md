@@ -1,13 +1,11 @@
 # Grails Mail Plugin
 
 [![Maven Central](https://img.shields.io/maven-central/v/org.grails.plugins/mail.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/org.grails.plugins/mail)
-[![Java CI](https://github.com/grails/grails-mail/actions/workflows/gradle.yml/badge.svg?event=push)](https://github.com/grails/grails-mail/actions/workflows/gradle.yml)
+[![Java CI](https://github.com/gpc/grails-mail/actions/workflows/gradle.yml/badge.svg?event=push)](https://github.com/gpc/grails-mail/actions/workflows/gradle.yml)
 
-## About
+The Grails Mail Plugin provides a convenient DSL (Domain Specific Language) for _sending_ email. It supports plain text, html, attachments, inline resources and i18n among other features.
 
-The Grails mail plugin provides a convenient DSL for _sending_ email. It supports plain text, html, attachments, inline resources and i18n among other features.
-
-Mail can be sent using the `mailService.sendMail` method. Here is an example…
+Mail can be sent using the `mailService.sendMail` method. Here is an example:
 ```groovy
 mailService.sendMail {
    to 'fred@gmail.com', 'ginger@gmail.com'
@@ -21,7 +19,7 @@ mailService.sendMail {
 
 ## Documentation
 
-[Latest documentation](https://grails.github.io/grails-mail/latest/) and [snapshots](https://grails.github.io/grails-mail/snapshot/) are available.
+[Latest documentation](https://gpc.github.io/grails-mail/latest/) and [snapshots](https://gpc.github.io/grails-mail/snapshot/) are available.
 
 ## Versions
 
@@ -35,7 +33,7 @@ mailService.sendMail {
 
 ## Issues
 
-Issues can be raised via [GitHub Issues](https://github.com/grails/grails-mail/issues).
+Issues can be raised via [GitHub Issues](https://github.com/gpc/grails-mail/issues).
 
 ## Contributing
 
