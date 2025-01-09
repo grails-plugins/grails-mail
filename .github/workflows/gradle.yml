@@ -7,8 +7,8 @@ on:
     branches:
       - '[4-9]+.[0-9]+.x'
 env:
-  GIT_USER_NAME: gpc-deploy
-  GIT_USER_EMAIL: gpc-deploy@users.noreply.github.com
+  GIT_USER_NAME: ${{ variables.GIT_USER_NAME }}
+  GIT_USER_EMAIL: ${{ variables.GIT_USER_EMAIL }}
 jobs:
   test_project:
     name: "Test Project"

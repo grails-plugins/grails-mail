@@ -3,8 +3,8 @@ on:
   release:
     types: [published]
 env:
-  GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
-  GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
+  GIT_USER_NAME: ${{ variables.GIT_USER_NAME }}
+  GIT_USER_EMAIL: ${{ variables.GIT_USER_EMAIL }}
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -54,6 +54,7 @@ jobs:
           COMMIT_NAME: ${{ env.GIT_USER_NAME }}
           FOLDER: build/docs/manual
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          SKIP_SNAPSHOT: ${{ contains(steps.release_version.outputs.release_version, 'M') }}
           VERSION: ${{ steps.release_version.outputs.release_version }}
       - name: "⚙️ Run post-release"
         if: steps.publish_to_sonatype.outcome == 'success'
