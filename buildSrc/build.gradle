@@ -1,8 +1,0 @@
-repositories {
-    mavenCentral()
-    maven { url = 'https://repo.grails.org/grails/core' }
-}
-dependencies {
-    implementation buildsrcLibs.nexusPublishGradlePlugin
-    implementation buildsrcLibs.grailsGradlePlugin
-}

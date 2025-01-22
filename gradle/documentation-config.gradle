@@ -5,9 +5,9 @@ dependencies {
     add('groovydocConfiguration', localGroovy(), {
         because 'groovydoc needs to run with the same version as Gradle'
     })
-    add('guideConfiguration', libs.grails.docs)
-    add('guideConfiguration', libs.groovy.templates)
-    add('guideConfiguration', libs.slf4j.nop) // Get rid of logs during guide generation
+    add('guideConfiguration', 'org.grails:grails-docs')
+    add('guideConfiguration', 'org.apache.groovy:groovy-templates')
+    add('guideConfiguration', 'org.slf4j:slf4j-nop') // Get rid of logs during guide generation
 }
 
 tasks.withType(Groovydoc).configureEach {

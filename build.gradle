@@ -1,19 +1,27 @@
+buildscript {
+    repositories {
+        maven { url = 'https://repo.grails.org/grails/core' }
+    }
+    dependencies {
+        classpath platform("org.grails:grails-bom:$grailsVersion")
+        classpath "org.grails:grails-gradle-plugin"
+    }
+}
+
 plugins {
     id 'groovy'
     id 'java-library'
-    id 'io.github.gradle-nexus.publish-plugin'
-    id 'maven-publish'
     id 'org.asciidoctor.jvm.convert' version '4.0.4'
-    id 'signing'
 }
 
 version = projectVersion
 group = 'org.grails.plugins'
-ext.set('grailsVersion', libs.versions.grails.get())
 ext.set('isReleaseVersion', !version.toString().endsWith('-SNAPSHOT'))
 ext.set('isSnapshot', !isReleaseVersion)
 
 apply plugin: 'org.grails.grails-plugin' // Needs to be applied after grailsVersion has been set
+// Needs to be applied after grailsVersion has been set
+apply plugin: 'org.grails.grails-plugin'
 
 repositories {
     maven { url = 'https://repo.grails.org/grails/core' }
@@ -22,40 +30,40 @@ repositories {
 
 dependencies {
 
-    implementation(platform(libs.grails.bom))
+    implementation(platform("org.grails:grails-bom:$grailsVersion"))
 
-    compileOnly libs.servlet.api // Provided by the servlet container
-    compileOnly libs.grails.core // Provided as this is a Grails plugin
-    compileOnly libs.groovy.core // Used in public api, but Groovy is always provided
+    compileOnly 'jakarta.servlet:jakarta.servlet-api' // Provided by the servlet container
+    compileOnly 'org.grails:grails-core' // Provided as this is a Grails plugin
+    compileOnly 'org.apache.groovy:groovy' // Used in public api, but Groovy is always provided
 
-    compileOnlyApi libs.javamail.api // Used in public api
+    compileOnlyApi 'jakarta.mail:jakarta.mail-api' // Used in public api
 
-    api libs.spring.context // Used in public api
-    api libs.spring.contextSupport // Used in public api
+    api 'org.springframework:spring-context' // Used in public api
+    api 'org.springframework:spring-context-support' // Used in public api
 
     // These two libraries are used in public api, but not in a way
     // that is meant to be consumed by users of the plugin.
     // Therefore they are set to implementation to not expose unnecessarily
     // to the compileClasspath of plugin users.
-    implementation libs.grails.gsp.core
-    implementation libs.grails.webCommon
+    implementation 'org.grails:grails-gsp'
+    implementation 'org.grails:grails-web-common'
 
-    implementation libs.grails.gsp.webTaglib
-    implementation libs.grails.webUrlmappings
-    implementation libs.javamail.impl // Needs to be implementation (not runtimeOnly), as SMTPMessage is used in MailMessageBuilder
-    implementation libs.spring.beans
-    implementation libs.springboot.autoconfigure
+    implementation 'org.grails:grails-web-taglib'
+    implementation 'org.grails:grails-web-url-mappings'
+    implementation 'org.eclipse.angus:jakarta.mail' // Needs to be implementation (not runtimeOnly), as SMTPMessage is used in MailMessageBuilder
+    implementation 'org.springframework:spring-beans'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
 
-    testImplementation libs.servlet.api
-    testImplementation libs.grails.testingSupport.core
-    testImplementation libs.spock.core
+    testImplementation 'jakarta.servlet:jakarta.servlet-api'
+    testImplementation 'org.grails:grails-testing-support'
+    testImplementation 'org.spockframework:spock-core'
 
-    integrationTestImplementation libs.greenmail
-    integrationTestImplementation libs.groovy.xml
-    integrationTestImplementation libs.spring.web
+    integrationTestImplementation "com.icegreen:greenmail:$greenmailVersion"
+    integrationTestImplementation 'org.apache.groovy:groovy-xml'
+    integrationTestImplementation 'org.springframework:spring-web'
 
-    integrationTestRuntimeOnly libs.springboot.starterTomcat
-    integrationTestRuntimeOnly libs.grails.testingSupport.web
+    integrationTestRuntimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
+    integrationTestRuntimeOnly 'org.grails:grails-web-testing-support'
 }
 
 tasks.withType(Test).configureEach {
