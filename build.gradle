@@ -19,9 +19,9 @@ group = 'org.grails.plugins'
 ext.set('isReleaseVersion', !version.toString().endsWith('-SNAPSHOT'))
 ext.set('isSnapshot', !isReleaseVersion)
 
-apply plugin: 'org.grails.grails-plugin' // Needs to be applied after grailsVersion has been set
 // Needs to be applied after grailsVersion has been set
 apply plugin: 'org.grails.grails-plugin'
+apply plugin: 'org.grails.grails-publish'
 
 repositories {
     maven { url = 'https://repo.grails.org/grails/core' }
@@ -66,6 +66,25 @@ dependencies {
     integrationTestRuntimeOnly 'org.grails:grails-web-testing-support'
 }
 
+grailsPublish {
+    githubSlug = 'gpc/grails-mail'
+    license {
+        name = 'Apache-2.0'
+    }
+    title = 'Grails Mail Plugin'
+    desc = 'Provides Mail support to a running Grails application'
+    developers = [
+        candrews: 'Craig Andrews',
+        ldaley: 'Luke Daley',
+        pledbrook: 'Peter Ledbrook',
+        jeffscottbrown: 'Jeff Brown',
+        graemerocher: 'Graeme Rocher',
+        marcpalmer: 'Marc Palmer',
+        sbglasius: 'Søren Berg Glasius',
+        matrei: 'Mattias Reichel'
+    ]
+}
+
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
     testLogging {
@@ -76,4 +95,3 @@ tasks.withType(Test).configureEach {
 apply from: layout.projectDirectory.file('gradle/java-config.gradle')
 apply from: layout.projectDirectory.file('gradle/grails-plugin-config.gradle')
 apply from: layout.projectDirectory.file('gradle/documentation-config.gradle')
-apply from: layout.projectDirectory.file('gradle/publish-config.gradle')
