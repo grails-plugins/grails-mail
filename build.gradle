@@ -32,12 +32,6 @@ dependencies {
 
     implementation(platform("org.grails:grails-bom:$grailsVersion"))
 
-    compileOnly 'jakarta.servlet:jakarta.servlet-api' // Provided by the servlet container
-    compileOnly 'org.grails:grails-core' // Provided as this is a Grails plugin
-    compileOnly 'org.apache.groovy:groovy' // Used in public api, but Groovy is always provided
-
-    compileOnlyApi 'jakarta.mail:jakarta.mail-api' // Used in public api
-
     api 'org.springframework:spring-context' // Used in public api
     api 'org.springframework:spring-context-support' // Used in public api
 
@@ -53,6 +47,12 @@ dependencies {
     implementation 'org.eclipse.angus:jakarta.mail' // Needs to be implementation (not runtimeOnly), as SMTPMessage is used in MailMessageBuilder
     implementation 'org.springframework:spring-beans'
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
+
+    compileOnlyApi 'jakarta.mail:jakarta.mail-api' // Used in public api
+
+    compileOnly 'jakarta.servlet:jakarta.servlet-api' // Provided by the servlet container
+    compileOnly 'org.grails:grails-core' // Provided as this is a Grails plugin
+    compileOnly 'org.apache.groovy:groovy' // Used in public api, but Groovy is always provided
 
     testImplementation 'jakarta.servlet:jakarta.servlet-api'
     testImplementation 'org.grails:grails-testing-support'
