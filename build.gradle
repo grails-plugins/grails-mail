@@ -11,8 +11,6 @@ buildscript {
 
 version = projectVersion
 group = 'org.grails.plugins'
-ext.set('isReleaseVersion', !version.toString().endsWith('-SNAPSHOT'))
-ext.set('isSnapshot', !isReleaseVersion)
 
 apply plugin: 'groovy'
 apply plugin: 'java-library'
