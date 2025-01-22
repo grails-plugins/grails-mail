@@ -13,7 +13,7 @@ jobs:
   test_project:
     name: "Test Project"
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: true
       matrix:
@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew check
   publish_snapshot:
     name: "Build Project and Publish Snapshot release"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: github.event_name == 'push'
     steps:
       - name: "📥 Checkout repository"
