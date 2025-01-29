@@ -1,20 +1,8 @@
-buildscript {
-    repositories {
-        maven { url = 'https://repo.grails.org/grails/core' }
-    }
-    dependencies {
-        classpath platform("org.grails:grails-bom:$grailsVersion")
-        classpath "org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:$asciidoctorGradlePluginVersion"
-        classpath "org.grails:grails-gradle-plugin"
-    }
-}
-
 version = projectVersion
 group = 'org.grails.plugins'
 
 apply plugin: 'groovy'
 apply plugin: 'java-library'
-apply plugin: 'org.asciidoctor.jvm.convert'
 apply plugin: 'org.grails.grails-plugin'
 apply plugin: 'org.grails.grails-publish'
 

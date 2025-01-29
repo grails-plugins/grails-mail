@@ -1,4 +1,8 @@
 configurations.register('groovydocConfiguration')
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
+
+apply plugin: 'org.asciidoctor.jvm.convert'
+
 configurations.register('guideConfiguration')
 
 dependencies {
@@ -19,7 +23,7 @@ tasks.withType(Groovydoc).configureEach {
     groovyClasspath = configurations.groovydocConfiguration
 }
 
-asciidoctor {
+tasks.withType(AsciidoctorTask).configureEach {
     baseDir = file('src/docs')
     sourceDir = file('src/docs')
     outputDir = file('build/docs/manual')
