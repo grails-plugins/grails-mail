@@ -2,15 +2,19 @@ plugins {
     id 'groovy-gradle-plugin'
 }
 
-def versions = new Properties()
-file('../gradle.properties').withInputStream { versions.load(it) }
+file('../gradle.properties').withInputStream {
+    def gradleProperties = new Properties()
+    gradleProperties.load(it)
+    gradleProperties.each { k, v -> ext.set(k, v) }
+
+}
 
 repositories {
     maven { url = 'https://repo.grails.org/grails/core' }
 }
 
 dependencies {
-    implementation platform("org.grails:grails-bom:${versions.getProperty('grailsVersion')}")
-    implementation "org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:${versions.getProperty('asciidoctorGradlePluginVersion')}"
+    implementation platform("org.grails:grails-bom:$grailsVersion")
+    implementation "org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:$asciidoctorGradlePluginVersion"
     implementation 'org.grails:grails-gradle-plugin'
 }
