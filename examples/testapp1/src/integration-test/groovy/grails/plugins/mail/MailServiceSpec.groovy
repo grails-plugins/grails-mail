@@ -43,12 +43,13 @@ class MailServiceSpec extends Specification {
 
     @Inject
     JavaMailSender mimeMailSender
-    MailService mimeCapableMailService
-    MailService nonMimeCapableMailService
-    MailMessageContentRenderer mailMessageContentRenderer
 
     @Shared
     GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP)
+
+    MailService mimeCapableMailService
+    MailService nonMimeCapableMailService
+    MailMessageContentRenderer mailMessageContentRenderer
 
     def setupSpec() {
         greenMail.start()

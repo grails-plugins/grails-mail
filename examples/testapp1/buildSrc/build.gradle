@@ -1,0 +1,19 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+file('../../../gradle.properties').withInputStream {
+    def gradleProperties = new Properties()
+    gradleProperties.load(it)
+    gradleProperties.each { k, v -> ext.set(k, v) }
+}
+
+repositories {
+    maven { url = 'https://repo.grails.org/grails/core' }
+}
+
+dependencies {
+    implementation platform("org.grails:grails-bom:$grailsVersion")
+    implementation 'com.bertramlabs.plugins:asset-pipeline-gradle'
+    implementation 'org.grails:grails-gradle-plugin'
+}

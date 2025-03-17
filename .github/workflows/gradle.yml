@@ -32,6 +32,9 @@ jobs:
           develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
       - name: "🏃 Run tests"
         run: ./gradlew check
+      - name: "🏃 Run integration tests"
+        working-directory: ./examples/testapp1
+        run: ./gradlew integrationTest
   publish_snapshot:
     name: "Build Project and Publish Snapshot release"
     runs-on: ubuntu-24.04

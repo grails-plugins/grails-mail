@@ -41,12 +41,6 @@ dependencies {
     testImplementation 'org.grails:grails-testing-support'
     testImplementation 'org.spockframework:spock-core'
 
-    integrationTestImplementation "com.icegreen:greenmail:$greenmailVersion"
-    integrationTestImplementation 'org.apache.groovy:groovy-xml'
-    integrationTestImplementation 'org.springframework:spring-web'
-
-    integrationTestRuntimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
-    integrationTestRuntimeOnly 'org.grails:grails-web-testing-support'
 }
 
 grailsPublish {
@@ -76,10 +70,5 @@ tasks.withType(Test).configureEach {
 }
 
 compileJava.options.release = javaVersion.toInteger()
-
-// Exclude artifacts used for testing from the production jar
-tasks.named('jar', Jar) {
-    exclude('_testemails', 'messages*.properties')
-}
 
 apply from: layout.projectDirectory.file('gradle/documentation-config.gradle')

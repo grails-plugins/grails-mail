@@ -1,0 +1,51 @@
+file('../../gradle.properties').withInputStream {
+    def gradleProperties = new Properties()
+    gradleProperties.load(it)
+    gradleProperties.each { k, v -> ext.set(k, v) }
+}
+
+version = '0.1'
+group = 'testapp1'
+
+apply plugin: 'org.grails.grails-web'
+apply plugin: 'com.bertramlabs.asset-pipeline'
+
+repositories {
+    maven { url = 'https://repo.grails.org/grails/core' }
+}
+
+dependencies {
+
+    implementation platform("org.grails:grails-bom:$grailsVersion")
+
+    implementation 'io.github.gpc:grails-mail'
+    implementation 'org.grails:grails-core'
+    implementation 'org.grails.plugins:gsp'
+
+    testAndDevelopmentOnly 'org.webjars.npm:bootstrap:5.3.3'
+    testAndDevelopmentOnly 'org.webjars.npm:bootstrap-icons:1.11.3'
+    testAndDevelopmentOnly 'org.webjars.npm:jquery:3.7.1'
+
+    runtimeOnly 'com.bertramlabs.plugins:asset-pipeline-grails'
+    runtimeOnly 'org.grails:grails-plugin-i18n'
+    runtimeOnly 'org.grails:grails-plugin-url-mappings'
+    runtimeOnly 'org.springframework.boot:spring-boot-autoconfigure'
+    runtimeOnly 'org.springframework.boot:spring-boot-starter-logging'
+    runtimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    integrationTestImplementation "com.icegreen:greenmail:$greenmailVersion"
+    integrationTestImplementation 'org.grails:grails-testing-support'
+    integrationTestImplementation 'org.spockframework:spock-core'
+
+}
+
+compileJava.options.release = javaVersion.toInteger()
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+}
