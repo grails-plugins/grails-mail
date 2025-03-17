@@ -41,6 +41,7 @@ dependencies {
     testImplementation 'org.grails:grails-testing-support'
     testImplementation 'org.spockframework:spock-core'
 
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 grailsPublish {
