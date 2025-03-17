@@ -2,14 +2,6 @@ import org.asciidoctor.gradle.jvm.AsciidoctorTask
 
 apply plugin: 'org.asciidoctor.jvm.convert'
 
-configurations.register('guideConfiguration')
-
-dependencies {
-    add('guideConfiguration', 'org.grails:grails-docs')
-    add('guideConfiguration', 'org.apache.groovy:groovy-templates')
-    add('guideConfiguration', 'org.slf4j:slf4j-nop') // Get rid of logs during guide generation
-}
-
 tasks.withType(Groovydoc).configureEach {
     access = GroovydocAccess.PROTECTED
     processScripts = false
@@ -18,9 +10,9 @@ tasks.withType(Groovydoc).configureEach {
 }
 
 tasks.withType(AsciidoctorTask).configureEach {
-    baseDir = file('src/docs')
-    sourceDir = file('src/docs')
-    outputDir = file('build/docs/manual')
+    baseDir = layout.projectDirectory.dir('src/docs')
+    sourceDir = layout.projectDirectory.dir('src/docs')
+    outputDir = layout.buildDirectory.dir('docs/manual')
     sources {
         include 'index.adoc'
     }
@@ -55,5 +47,19 @@ tasks.withType(AsciidoctorTask).configureEach {
 
 tasks.register('docs') {
     group = 'documentation'
-    dependsOn 'asciidoctor', 'groovydoc'
+    inputs.files(tasks.named('asciidoctor'), tasks.named('groovydoc'))
+    outputs.file(layout.buildDirectory.file('docs/index.html'))
+    doLast {
+        File redirectPage = layout.buildDirectory.file('docs/index.html').get().asFile
+        redirectPage.delete()
+        redirectPage.text = '''
+        <html lang="en">
+            <head>
+                <title>Redirecting...</title>
+                <meta http-equiv="refresh" content="0; url=manual/index.html" />
+            </head>
+            <body></body>
+        </html>
+        '''.stripIndent(8)
+    }
 }
