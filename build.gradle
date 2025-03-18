@@ -15,26 +15,71 @@ dependencies {
 
     implementation(platform("org.grails:grails-bom:$grailsVersion"))
 
-    api 'org.springframework:spring-context' // Used in public api
-    api 'org.springframework:spring-context-support' // Used in public api
+    api 'org.grails:grails-gsp', {
+        // api: GroovyPageTemplate, GroovyPagesTemplateEngine
+    }
+    api 'org.grails:grails-web-common', {
+        // api: GroovyPagesUriService
+        // impl: GrailsWebRequest, WrappedResponseHolder
+    }
+    api 'org.springframework:spring-beans', {
+        // api: DisposableBean, InitializingBean
+        // impl: @Autowired(runtime), @Qualifier(runtime)
+    }
+    api 'org.springframework:spring-context', {
+        // api: ApplicationContext, JndiObjectFactoryBean
+        // impl: @Bean(runtime)
+    }
+    api 'org.springframework:spring-context-support', {
+        // api: JavaMailSender, MailMessage, MailSender, SimpleMailMessage
+        // impl: JavaMailSenderImpl, MimeMailMessage, MimeMessageHelper
+    }
+    api 'org.springframework:spring-core', {
+        // api: InputStreamSource
+        // impl: Assert, ByteArrayResource, FileSystemResource, PropertiesPropertySource, StringUtils
+    }
 
-    // These two libraries are used in public api, but not in a way
-    // that is meant to be consumed by users of the plugin.
-    // Therefore they are set to implementation to not expose unnecessarily
-    // to the compileClasspath of plugin users.
-    implementation 'org.grails:grails-gsp'
-    implementation 'org.grails:grails-web-common'
+    implementation 'org.apache.groovy:groovy-templates', {
+        // impl: Template
+    }
+    implementation 'org.eclipse.angus:jakarta.mail', {
+        // impl: SMTPMessage
+    }
+    implementation 'org.grails:grails-web-taglib', {
+        // for taglib support
+    }
+    implementation 'org.grails:grails-web-url-mappings', {
+        // impl: LinkGenerator
+    }
+    implementation 'org.springframework:spring-web', {
+        // impl: RequestContextHolder
+    }
+    implementation 'org.springframework:spring-webmvc', {
+        // impl: DispatcherServlet, FixedLocaleResolver, RequestContextUtils
+    }
+    implementation 'org.springframework.boot:spring-boot', {
+        // impl: Bindable, Binder, @ConfigurationProperties, ConfigurationPropertySources,
+        //       @EnableConfigurationProperties(runtime)
+    }
+    implementation 'org.springframework.boot:spring-boot-autoconfigure', {
+        // impl: @AutoConfiguration(runtime), @ConditionalOnMissingBean(runtime), @ConditionalOnProperty(runtime)
+    }
 
-    implementation 'org.grails:grails-web-taglib'
-    implementation 'org.grails:grails-web-url-mappings'
-    implementation 'org.eclipse.angus:jakarta.mail' // Needs to be implementation (not runtimeOnly), as SMTPMessage is used in MailMessageBuilder
-    implementation 'org.springframework:spring-beans'
-    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    compileOnlyApi 'jakarta.mail:jakarta.mail-api', {
+        // api: Message, Session
+        // impl: MimeMessage, MimeUtility
+    }
 
-    compileOnlyApi 'jakarta.mail:jakarta.mail-api' // Used in public api
-
-    compileOnly 'jakarta.servlet:jakarta.servlet-api' // Provided by the servlet container
-    compileOnly 'org.grails:grails-core' // Provided as this is a Grails plugin
+    compileOnly 'jakarta.inject:jakarta.inject-api', { // Used by Spring DI
+        // impl: @Inject(runtime)
+    }
+    compileOnly 'jakarta.servlet:jakarta.servlet-api', { // Provided by the servlet container
+        // impl: Cookie, HttpServletResponse, HttpServletRequest
+    }
+    compileOnly 'org.grails:grails-core', { // Provided as this is a Grails plugin
+        // api: Config, GrailsApplication, GrailsPluginManager, Plugin
+        // impl: @Artefact(runtime), @Enhances(runtime)
+    }
     compileOnly 'org.apache.groovy:groovy' // Provided as this is a Grails plugin
 
     testImplementation 'jakarta.servlet:jakarta.servlet-api'
