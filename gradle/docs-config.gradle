@@ -7,6 +7,7 @@ tasks.withType(Groovydoc).configureEach {
     processScripts = false
     includeMainForScripts = false
     includeAuthor = false
+    destinationDir = layout.buildDirectory.dir('docs/api').get().asFile
 }
 
 tasks.withType(AsciidoctorTask).configureEach {
@@ -47,10 +48,11 @@ tasks.withType(AsciidoctorTask).configureEach {
 
 tasks.register('docs') {
     group = 'documentation'
+    def outputFile = layout.buildDirectory.file('docs/index.html')
     inputs.files(tasks.named('asciidoctor'), tasks.named('groovydoc'))
-    outputs.file(layout.buildDirectory.file('docs/index.html'))
+    outputs.file(outputFile)
     doLast {
-        File redirectPage = layout.buildDirectory.file('docs/index.html').get().asFile
+        File redirectPage = outputFile.get().asFile
         redirectPage.delete()
         redirectPage.text = '''
         <html lang="en">

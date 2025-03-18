@@ -117,4 +117,4 @@ tasks.withType(Test).configureEach {
 
 compileJava.options.release = javaVersion.toInteger()
 
-apply from: layout.projectDirectory.file('gradle/documentation-config.gradle')
+apply from: layout.projectDirectory.file('gradle/docs-config.gradle')
