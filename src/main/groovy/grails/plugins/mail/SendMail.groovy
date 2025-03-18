@@ -17,17 +17,15 @@ package grails.plugins.mail
 
 import grails.artefact.Enhances
 import groovy.transform.CompileStatic
-import org.grails.core.DefaultGrailsControllerClass
-import org.grails.core.DefaultGrailsServiceClass
-import org.springframework.beans.factory.annotation.Autowired
+import jakarta.inject.Inject
 import org.springframework.context.ApplicationContext
 import org.springframework.mail.MailMessage
 
 @CompileStatic
-@Enhances([DefaultGrailsServiceClass.SERVICE, DefaultGrailsControllerClass.CONTROLLER])
+@Enhances(['Controller', 'Service'])
 trait SendMail {
 
-	@Autowired
+	@Inject
 	ApplicationContext applicationContext
 
 	MailMessage sendMail(@DelegatesTo(strategy = Closure.DELEGATE_FIRST, value = MailMessageBuilder) Closure dsl) {
