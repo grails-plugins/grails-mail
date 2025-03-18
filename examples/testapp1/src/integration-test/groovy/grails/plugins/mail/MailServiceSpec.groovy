@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2024 the original author or authors.
+ * Copyright 2004-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 package grails.plugins.mail
 
-import com.icegreen.greenmail.util.GreenMail
-import com.icegreen.greenmail.util.ServerSetupTest
 import grails.testing.mixin.integration.Integration
 import groovy.xml.XmlSlurper
 import jakarta.inject.Inject
@@ -35,49 +33,39 @@ import org.springframework.mail.javamail.MimeMailMessage
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.web.context.request.RequestContextHolder
 import spock.lang.Ignore
-import spock.lang.Shared
 import spock.lang.Specification
+import testapp1.GreenMailService
 
 @Integration
 class MailServiceSpec extends Specification {
 
     @Inject
     JavaMailSender mimeMailSender
-
-    @Shared
-    GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP)
+    GreenMailService greenMailService
 
     MailService mimeCapableMailService
     MailService nonMimeCapableMailService
     MailMessageContentRenderer mailMessageContentRenderer
 
-    def setupSpec() {
-        greenMail.start()
-    }
-
-    def cleanupSpec() {
-        greenMail.stop()
-    }
-
     def setup() {
-        def mimeMessageBuilderFactor = new MailMessageBuilderFactory(
-                mailSender: mimeMailSender,
-                mailMessageContentRenderer: mailMessageContentRenderer
+        def mimeMessageBuilderFactory = new MailMessageBuilderFactory(
+                mimeMailSender,
+                mailMessageContentRenderer
         )
         mimeCapableMailService = new MailService(
-                mailMessageBuilderFactory: mimeMessageBuilderFactor,
-                mailConfigurationProperties: new MailConfigurationProperties()
+                new MailConfigurationProperties(),
+                mimeMessageBuilderFactory
         )
         mimeCapableMailService.afterPropertiesSet()
 
         def simpleMailSender = new SimpleMailSender()
         def simpleMessageBuilderFactory = new MailMessageBuilderFactory(
-                mailSender: simpleMailSender,
-                mailMessageContentRenderer: mailMessageContentRenderer
+                simpleMailSender,
+                mailMessageContentRenderer
         )
         nonMimeCapableMailService = new MailService(
-                mailMessageBuilderFactory: simpleMessageBuilderFactory,
-                mailConfigurationProperties: new MailConfigurationProperties()
+                new MailConfigurationProperties(),
+                simpleMessageBuilderFactory
         )
         nonMimeCapableMailService.afterPropertiesSet()
     }
@@ -85,7 +73,7 @@ class MailServiceSpec extends Specification {
     def cleanup() {
         mimeCapableMailService.destroy()
         nonMimeCapableMailService.destroy()
-        greenMail.reset()
+        greenMailService.reset()
     }
 
     void 'should send a simple mail message successfully'() {
@@ -278,7 +266,7 @@ class MailServiceSpec extends Specification {
 
         and: 'the mime message and received message are retrieved'
         def msg = message.mimeMessage
-        def greenMsg = greenMail.receivedMessages[0]
+        def greenMsg = greenMailService.greenMail.receivedMessages[0]
 
         then: 'the mime message should have the correct subject and sender'
         msg.subject == subject
