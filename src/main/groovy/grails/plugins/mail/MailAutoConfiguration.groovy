@@ -1,11 +1,11 @@
 /*
- * Copyright 2022-2024 the original author or authors.
+ * Copyright 2022-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,30 +19,27 @@ import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager
 import grails.web.pages.GroovyPagesUriService
 import groovy.transform.CompileStatic
+import jakarta.mail.Session
 import org.grails.gsp.GroovyPagesTemplateEngine
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.jndi.JndiObjectFactoryBean
 import org.springframework.mail.MailSender
+import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.JavaMailSenderImpl
 
-import jakarta.mail.Session
-
-@Configuration
 @CompileStatic
-class MailConfiguration {
+@AutoConfiguration
+@EnableConfigurationProperties(MailConfigurationProperties)
+class MailAutoConfiguration {
 
     @Bean
-    MailConfigurationProperties mailConfigurationProperties() {
-        return new MailConfigurationProperties()
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(name = 'mailSession')
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(prefix = 'grails.mail', name = 'jndiName')
     JndiObjectFactoryBean mailSession(MailConfigurationProperties mailProperties) {
         def factory = new JndiObjectFactoryBean()
@@ -51,8 +48,10 @@ class MailConfiguration {
     }
 
     @Bean
-    JavaMailSenderImpl mailSender(
-            @Autowired(required = false) @Qualifier('mailSession') Session mailSession,
+    @ConditionalOnMissingBean
+    JavaMailSender mailSender(
+            @Autowired(required = false)
+            @Qualifier('mailSession') Session mailSession,
             MailConfigurationProperties mailProperties) {
 
         def mailSender = new JavaMailSenderImpl()
@@ -93,18 +92,27 @@ class MailConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     MailMessageBuilderFactory mailMessageBuilderFactory(
             MailSender mailSender,
             MailMessageContentRenderer mailMessageContentRenderer) {
-        return new MailMessageBuilderFactory(mailSender, mailMessageContentRenderer)
+        new MailMessageBuilderFactory(mailSender, mailMessageContentRenderer)
     }
 
     @Bean
+    @ConditionalOnMissingBean
     MailMessageContentRenderer mailMessageContentRenderer(
             GroovyPagesTemplateEngine groovyPagesTemplateEngine,
             GroovyPagesUriService groovyPagesUriService,
             GrailsApplication grailsApplication,
             GrailsPluginManager pluginManager) {
-        return new MailMessageContentRenderer(groovyPagesTemplateEngine, groovyPagesUriService, grailsApplication, pluginManager)
+        new MailMessageContentRenderer(groovyPagesTemplateEngine, groovyPagesUriService, grailsApplication, pluginManager)
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    MailService mailService(MailConfigurationProperties mailConfigurationProperties,
+                            MailMessageBuilderFactory mailMessageBuilderFactory) {
+        new MailService(mailConfigurationProperties, mailMessageBuilderFactory)
     }
 }

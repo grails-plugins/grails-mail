@@ -30,16 +30,15 @@ the Spring ApplicationContext.
 It also adds a "sendMail" method to all controller classes. A typical example usage is:
 
 sendMail {
-    to "fred@g2one.com","ginger@g2one.com"
-    from "john@g2one.com"
-    cc "marge@g2one.com", "ed@g2one.com"
-    bcc "joe@g2one.com"
-    subject "Hello John"
-    text "this is some text"
+    to 'fred@g2one.com','ginger@g2one.com'
+    from 'john@g2one.com'
+    cc 'marge@g2one.com', 'ed@g2one.com'
+    bcc 'joe@g2one.com'
+    subject 'Hello John'
+    text 'this is some text'
 }
 '''
-    def documentation = 'https://gpc.github.io/grails-mail/'
-
+    def documentation = 'https://gpc.github.io/grails-mail'
     def license = 'Apache 2.0 License'
     def organization = [name: 'Grails Plugin Collective', url: 'https://github.com/gpc']
     def developers = [
@@ -52,21 +51,11 @@ sendMail {
         [name: 'Søren Berg Glasius', email: 'soeren@glasius.dk'],
         [name: 'Mattias Reichel', email: 'mattias.reichel@gmail.com']
     ]
-
-    def issueManagement = [system: 'GitHub', url: 'https://github.com/gpc/grails-mail/issues']
-    def scm = [url: 'https://github.com/gpc/grails-mail']
-
-    def observe = ['controllers', 'services']
-
-    def pluginExcludes = [
-        'grails-app/i18n/*.properties',
-        'grails-app/views/_testemails/*.gsp'
+    def issueManagement = [
+        system: 'GitHub',
+        url: 'https://github.com/gpc/grails-mail/issues'
     ]
-
-    @Override
-    Closure doWithSpring() {
-        return {
-            mailConfiguration(MailConfiguration)
-        }
-    }
+    def scm = [
+        url: 'https://github.com/gpc/grails-mail'
+    ]
 }
