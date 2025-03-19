@@ -24,20 +24,20 @@ class MailGrailsPlugin extends Plugin {
     def authorEmail = 'info@grails.org'
     def title = 'Provides Mail support to a running Grails application'
     def description = '''\
-This plugin provides a MailService class as well as configuring the necessary beans within
-the Spring ApplicationContext.
-
-It also adds a "sendMail" method to all controller classes. A typical example usage is:
-
-sendMail {
-    to 'fred@g2one.com','ginger@g2one.com'
-    from 'john@g2one.com'
-    cc 'marge@g2one.com', 'ed@g2one.com'
-    bcc 'joe@g2one.com'
-    subject 'Hello John'
-    text 'this is some text'
-}
-'''
+        This plugin provides a MailService class as well as configuring the necessary beans within
+        the Spring ApplicationContext.
+        
+        It also adds a "sendMail" method to all controller classes. A typical example usage is:
+        
+        sendMail {
+            to 'fred@g2one.com','ginger@g2one.com'
+            from 'john@g2one.com'
+            cc 'marge@g2one.com', 'ed@g2one.com'
+            bcc 'joe@g2one.com'
+            subject 'Hello John'
+            text 'this is some text'
+        }
+    '''.stripIndent(8)
     def documentation = 'https://gpc.github.io/grails-mail'
     def license = 'Apache 2.0 License'
     def organization = [name: 'Grails Plugin Collective', url: 'https://github.com/gpc']
@@ -58,4 +58,5 @@ sendMail {
     def scm = [
         url: 'https://github.com/gpc/grails-mail'
     ]
+    def providedArtefacts = [PlainTextMailTagLib]
 }
