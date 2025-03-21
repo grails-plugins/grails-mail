@@ -6,6 +6,7 @@ on:
   pull_request:
     branches:
       - '[4-9]+.[0-9]+.x'
+  workflow_dispatch:
 jobs:
   test_project:
     name: "Test Project"
@@ -32,7 +33,7 @@ jobs:
         working-directory: ./examples/testapp1
         run: ./gradlew integrationTest
   publish_snapshot:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     name: "Build Project and Publish Snapshot release"
     needs: test_project
     runs-on: ubuntu-24.04
