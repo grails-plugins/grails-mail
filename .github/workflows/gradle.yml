@@ -55,7 +55,6 @@ jobs:
         run: ./gradlew build
       - name: "📤 Publish Snapshot version to Github Packages"
         env:
-          GITHUB_MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           GRADLE_PUBLISH_RELEASE: 'false'
           MAVEN_PUBLISH_USERNAME: ${{ secrets.GITHUB_ACTOR }}
           MAVEN_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
