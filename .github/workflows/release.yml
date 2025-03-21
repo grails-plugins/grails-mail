@@ -23,7 +23,7 @@ jobs:
         with:
           develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
       - name: "📝 Store the current release version"
-      - run: |
+        run: |
           echo "Release version: ${GITHUB_REF:11}"
           echo "RELEASE_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
       - name: "⚙ Run pre-release"
