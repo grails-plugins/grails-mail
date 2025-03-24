@@ -59,7 +59,7 @@ jobs:
           GRADLE_PUBLISH_RELEASE: 'false'
           MAVEN_PUBLISH_USERNAME: ${{ secrets.GITHUB_ACTOR }}
           MAVEN_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          MAVEN_PUBLISH_URL: 'https://maven.pkg.github.com/gpc/grails-mail'
+          MAVEN_PUBLISH_URL: 'https://maven.pkg.github.com/grails-plugins/grails-mail'
         run: ./gradlew publish
       - name: "📖 Generate Snapshot Documentation"
         run: ./gradlew docs

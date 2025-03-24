@@ -38,9 +38,9 @@ class MailGrailsPlugin extends Plugin {
             text 'this is some text'
         }
     '''.stripIndent(8)
-    def documentation = 'https://gpc.github.io/grails-mail'
+    def documentation = 'https://grails-plugins.github.io/grails-mail'
     def license = 'Apache 2.0 License'
-    def organization = [name: 'Grails Plugin Collective', url: 'https://github.com/gpc']
+    def organization = [name: 'Grails Plugins', url: 'https://github.com/grails-plugins']
     def developers = [
         [name: 'Craig Andrews', email: 'candrews@integralblue.com'],
         [name: 'Luke Daley', email: 'ld@ldaley.com'],
@@ -53,10 +53,10 @@ class MailGrailsPlugin extends Plugin {
     ]
     def issueManagement = [
         system: 'GitHub',
-        url: 'https://github.com/gpc/grails-mail/issues'
+        url: 'https://github.com/grails-plugins/grails-mail/issues'
     ]
     def scm = [
-        url: 'https://github.com/gpc/grails-mail'
+        url: 'https://github.com/grails-plugins/grails-mail'
     ]
     def providedArtefacts = [PlainTextMailTagLib]
 }

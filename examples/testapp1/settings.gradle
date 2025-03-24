@@ -10,7 +10,7 @@ def isAuthenticated = System.getenv('DEVELOCITY_ACCESS_KEY') != null
 develocity {
     server = 'https://ge.grails.org'
     buildScan {
-        tag('gpc')
+        tag('grails-plugins')
         tag('grails-mail')
         publishing.onlyIf { isAuthenticated }
         uploadInBackground = isLocal
@@ -29,6 +29,6 @@ rootProject.name = 'testapp1'
 
 includeBuild('../../../grails-mail') {
     dependencySubstitution {
-        substitute module('io.github.gpc:grails-mail') using project(':')
+        substitute module('org.grails.plugins:grails-mail') using project(':')
     }
 }

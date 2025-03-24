@@ -23,7 +23,7 @@ dependencies {
     implementation platform("org.grails:grails-bom:$grailsVersion")
 
     implementation "com.icegreen:greenmail:$greenmailVersion"
-    implementation 'io.github.gpc:grails-mail'
+    implementation 'org.grails.plugins:grails-mail'
     implementation 'org.grails:grails-core'
     implementation 'org.grails:grails-plugin-controllers'
     implementation 'org.grails.plugins:gsp'

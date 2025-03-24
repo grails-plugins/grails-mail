@@ -1,5 +1,5 @@
 version = projectVersion
-group = 'io.github.gpc'
+group = 'org.grails.plugins'
 
 apply plugin: 'groovy'
 apply plugin: 'java-library'
@@ -94,7 +94,7 @@ dependencies {
 }
 
 grailsPublish {
-    githubSlug = 'gpc/grails-mail'
+    githubSlug = 'grails-plugins/grails-mail'
     license {
         name = 'Apache-2.0'
     }

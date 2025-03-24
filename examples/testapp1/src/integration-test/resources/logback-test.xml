@@ -15,6 +15,6 @@
 
     <logger name="com.icegreen.greenmail" level="INFO" additivity="false"><appender-ref ref="STDOUT"/></logger>
     <logger name="testapp1" level="INFO" additivity="false"><appender-ref ref="STDOUT"/></logger>
-    <logger name="io.github.gpc:grails-mail" level="DEBUG" additivity="false"><appender-ref ref="STDOUT"/></logger>
+    <logger name="org.grails.plugins:grails-mail" level="DEBUG" additivity="false"><appender-ref ref="STDOUT"/></logger>
 
 </configuration>
