@@ -1,7 +1,11 @@
 file('../../gradle.properties').withInputStream {
-    def gradleProperties = new Properties()
-    gradleProperties.load(it)
-    gradleProperties.each { k, v -> ext.set(k, v) }
+    // Inherit versions from main project
+    def mainProjectProps = new Properties()
+    mainProjectProps.load(it)
+    mainProjectProps
+            .findAll { !findProperty(it.key.toString()) }
+            .findAll {it.key.toString().endsWith('Version') }
+            .each { k, v -> ext.set(k, v) }
 }
 
 version = '0.1'
