@@ -101,7 +101,12 @@ class MailMessageBuilder {
     MailMessage sendMessage(ExecutorService executorService) {
         def message = finishMessage()
 
-        log.trace('Sending mail {} ...', getDescription(message as Message))
+        log.trace(
+                'Sending mail {} ...',
+                message instanceof MimeMailMessage ?
+                        getDescription((MimeMailMessage) message) :
+                        getDescription((Message) message)
+        )
 
         def sendingMsg = (message instanceof MimeMailMessage) ? message.mimeMessage : message
 
@@ -125,8 +130,12 @@ class MailMessageBuilder {
 			send(sendingMsg)
 		}
 
-        log.trace('Sent mail {} ...', getDescription(message as Message))
-
+        log.trace(
+                'Sent mail {}',
+                message instanceof MimeMailMessage ?
+                        getDescription((MimeMailMessage) message) :
+                        getDescription((Message) message)
+        )
         message
     }
 
