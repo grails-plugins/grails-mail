@@ -11,22 +11,23 @@ file('../../gradle.properties').withInputStream {
 version = '0.1'
 group = 'testapp1'
 
-apply plugin: 'org.grails.grails-web'
+apply plugin: 'org.apache.grails.gradle.grails-web'
 apply plugin: 'com.bertramlabs.asset-pipeline'
 
 repositories {
     maven { url = 'https://repo.grails.org/grails/core' }
+    maven { url = 'https://repository.apache.org/content/repositories/snapshots' }
 }
 
 dependencies {
 
-    implementation platform("org.grails:grails-bom:$grailsVersion")
+    implementation platform("org.apache.grails:grails-bom:$grailsVersion")
 
     implementation "com.icegreen:greenmail:$greenmailVersion"
     implementation 'org.grails.plugins:grails-mail'
-    implementation 'org.grails:grails-core'
-    implementation 'org.grails:grails-plugin-controllers'
-    implementation 'org.grails.plugins:gsp'
+    implementation 'org.apache.grails:grails-core'
+    implementation 'org.apache.grails:grails-controllers'
+    implementation 'org.apache.grails:grails-gsp'
 
     testAndDevelopmentOnly 'org.webjars.npm:bootstrap:5.3.3'
     testAndDevelopmentOnly 'org.webjars.npm:bootstrap-icons:1.11.3'
@@ -34,17 +35,17 @@ dependencies {
 
     runtimeOnly 'com.bertramlabs.plugins:asset-pipeline-grails'
     runtimeOnly 'org.fusesource.jansi:jansi'
-    runtimeOnly 'org.grails:grails-plugin-services'
-    runtimeOnly 'org.grails:grails-plugin-i18n'
-    runtimeOnly 'org.grails:grails-plugin-url-mappings'
+    runtimeOnly 'org.apache.grails:grails-services'
+    runtimeOnly 'org.apache.grails:grails-i18n'
+    runtimeOnly 'org.apache.grails:grails-url-mappings'
     runtimeOnly 'org.springframework.boot:spring-boot-autoconfigure'
     runtimeOnly 'org.springframework.boot:spring-boot-starter-logging'
     runtimeOnly 'org.springframework.boot:spring-boot-starter-tomcat'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    integrationTestImplementation testFixtures('org.grails.plugins:geb')
-    integrationTestImplementation 'org.grails:grails-testing-support'
+    integrationTestImplementation testFixtures('org.apache.grails:grails-geb')
+    integrationTestImplementation 'org.apache.grails.testing:grails-testing-support-core'
     integrationTestImplementation 'org.spockframework:spock-core'
 
 }
