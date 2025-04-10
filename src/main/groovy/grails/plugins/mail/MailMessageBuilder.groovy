@@ -102,7 +102,12 @@ class MailMessageBuilder {
     MailMessage sendMessage(ExecutorService executorService) {
         def message = finishMessage()
 
-        log.trace('Sending mail {} ...', getDescription(message as Message))
+        log.trace(
+                'Sending mail {} ...',
+                message instanceof MimeMailMessage ?
+                        getDescription((MimeMailMessage) message) :
+                        getDescription((Message) message)
+        )
 
         def sendingMsg = (message instanceof MimeMailMessage) ? message.mimeMessage : message
 
@@ -126,8 +131,12 @@ class MailMessageBuilder {
             send(sendingMsg)
         }
 
-        log.trace('Sent mail {} ...', getDescription(message as Message))
-
+        log.trace(
+                'Sent mail {}',
+                message instanceof MimeMailMessage ?
+                        getDescription((MimeMailMessage) message) :
+                        getDescription((Message) message)
+        )
         return message
     }
 
@@ -169,10 +178,10 @@ class MailMessageBuilder {
             headers.each { name, value ->
                 String nameString = name?.toString()
                 String valueString = value?.toString()
-    
+
                 Assert.hasText(nameString, 'header names cannot be null or empty')
                 Assert.hasText(valueString, "header value for '$nameString' cannot be null")
-    
+
                 mimeMessage.setHeader(nameString, valueString)
             }
         } else {
