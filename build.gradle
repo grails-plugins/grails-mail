@@ -3,22 +3,23 @@ group = 'org.grails.plugins'
 
 apply plugin: 'groovy'
 apply plugin: 'java-library'
-apply plugin: 'org.grails.grails-plugin'
-apply plugin: 'org.grails.grails-publish'
+apply plugin: 'org.apache.grails.gradle.grails-plugin'
+apply plugin: 'org.apache.grails.gradle.grails-publish'
 
 repositories {
-    maven { url = 'https://repo.grails.org/grails/core' }
     mavenCentral()
+    maven { url = 'https://repo.grails.org/grails/core' }
+    maven { url = 'https://repository.apache.org/content/repositories/snapshots' }
 }
 
 dependencies {
 
-    implementation(platform("org.grails:grails-bom:$grailsVersion"))
+    implementation(platform("org.apache.grails:grails-bom:$grailsVersion"))
 
-    api 'org.grails:grails-gsp', {
+    api 'org.apache.grails:grails-gsp', {
         // api: GroovyPageTemplate, GroovyPagesTemplateEngine
     }
-    api 'org.grails:grails-web-common', {
+    api 'org.apache.grails.web:grails-web-common', {
         // api: GroovyPagesUriService
         // impl: GrailsWebRequest, WrappedResponseHolder
     }
@@ -39,17 +40,17 @@ dependencies {
         // impl: Assert, ByteArrayResource, FileSystemResource, PropertiesPropertySource, StringUtils
     }
 
+    implementation 'org.apache.grails.views:grails-web-taglib', {
+        // for taglib support
+    }
+    implementation 'org.apache.grails.web:grails-web-url-mappings', {
+        // impl: LinkGenerator
+    }
     implementation 'org.apache.groovy:groovy-templates', {
         // impl: Template
     }
     implementation 'org.eclipse.angus:jakarta.mail', {
         // impl: SMTPMessage
-    }
-    implementation 'org.grails:grails-web-taglib', {
-        // for taglib support
-    }
-    implementation 'org.grails:grails-web-url-mappings', {
-        // impl: LinkGenerator
     }
     implementation 'org.springframework:spring-web', {
         // impl: RequestContextHolder
@@ -76,7 +77,7 @@ dependencies {
     compileOnly 'jakarta.servlet:jakarta.servlet-api', { // Provided by the servlet container
         // impl: Cookie, HttpServletResponse, HttpServletRequest
     }
-    compileOnly 'org.grails:grails-core', { // Provided as this is a Grails plugin
+    compileOnly 'org.apache.grails:grails-core', { // Provided as this is a Grails plugin
         // api: Config, GrailsApplication, GrailsPluginManager, Plugin
         // impl: @Artefact(runtime), @Enhances(runtime)
     }
@@ -85,7 +86,7 @@ dependencies {
     testImplementation 'jakarta.servlet:jakarta.servlet-api', {
         // impl: ServletContext
     }
-    testImplementation 'org.grails:grails-testing-support', {
+    testImplementation 'org.apache.grails.testing:grails-testing-support-core', {
         // impl: GrailsUnitTest
     }
     testImplementation 'org.spockframework:spock-core'
