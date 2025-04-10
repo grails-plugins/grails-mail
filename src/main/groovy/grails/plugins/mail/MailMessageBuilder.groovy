@@ -1,11 +1,11 @@
 /*
- * Copyright 2008-2024 the original author or authors.
+ * Copyright 2008-2025 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -62,7 +62,7 @@ class MailMessageBuilder {
     private String envelopeFrom
 
     private int multipart = MimeMessageHelper.MULTIPART_MODE_NO
-	private boolean async = false
+    private boolean async = false
 
     private List<Inline> inlines = []
 
@@ -72,7 +72,8 @@ class MailMessageBuilder {
         InputStreamSource toAdd
     }
 
-    MailMessageBuilder(MailSender mailSender, MailConfigurationProperties properties, MailMessageContentRenderer mailMessageContentRenderer = null) {
+    MailMessageBuilder(MailSender mailSender, MailConfigurationProperties properties,
+                       MailMessageContentRenderer mailMessageContentRenderer = null) {
         this.mailSender = mailSender
         this.mailMessageContentRenderer = mailMessageContentRenderer
         this.overrideAddress = properties.overrideAddress
@@ -95,7 +96,7 @@ class MailMessageBuilder {
                 message.setTo(defaultTo)
             }
         }
-        message
+        return message
     }
 
     MailMessage sendMessage(ExecutorService executorService) {
@@ -113,26 +114,26 @@ class MailMessageBuilder {
             sendingMsg.envelopeFrom = envelopeFrom
         }
 
-		if (async) {
-			executorService.execute({
-				try {
-					send(sendingMsg)
-				} catch(Throwable t) {
-					log.error('Failed to send email', t)
-				}
-			} as Runnable)
-		} else {
-			send(sendingMsg)
-		}
+        if (async) {
+            executorService.execute({
+                try {
+                    send(sendingMsg)
+                } catch(Throwable t) {
+                    log.error('Failed to send email', t)
+                }
+            } as Runnable)
+        } else {
+            send(sendingMsg)
+        }
 
         log.trace('Sent mail {} ...', getDescription(message as Message))
 
-        message
+        return message
     }
 
     /**
      * Method to send messages of any type.
-     * This method is dynamically compiled to avoid the need to cast the mail sender and  message to the correct types.
+     * This method is dynamically compiled to avoid the need to cast the mail sender and message to the correct types.
      * @param message Any type of message
      */
     @CompileDynamic
@@ -163,20 +164,20 @@ class MailMessageBuilder {
         }
 
         MailMessage msg = getMessage()
-		if (msg instanceof MimeMailMessage) {
-	        MimeMessage mimeMessage = (msg as MimeMailMessage).mimeMessageHelper.mimeMessage
-	        headers.each { name, value ->
-	            String nameString = name?.toString()
-	            String valueString = value?.toString()
-	
-	            Assert.hasText(nameString, 'header names cannot be null or empty')
-	            Assert.hasText(valueString, "header value for '$nameString' cannot be null")
-	
-	            mimeMessage.setHeader(nameString, valueString)
-	        }
-		} else {
-			throw new GrailsMailException('Mail message builder is not mime capable so headers cannot be set')
-		}
+        if (msg instanceof MimeMailMessage) {
+            MimeMessage mimeMessage = (msg as MimeMailMessage).mimeMessageHelper.mimeMessage
+            headers.each { name, value ->
+                String nameString = name?.toString()
+                String valueString = value?.toString()
+    
+                Assert.hasText(nameString, 'header names cannot be null or empty')
+                Assert.hasText(valueString, "header value for '$nameString' cannot be null")
+    
+                mimeMessage.setHeader(nameString, valueString)
+            }
+        } else {
+            throw new GrailsMailException('Mail message builder is not mime capable so headers cannot be set')
+        }
     }
 
     void to(Object[] args) {
@@ -361,13 +362,13 @@ class MailMessageBuilder {
         inlines << new Inline(id: contentId, contentType: contentType, toAdd: source)
     }
 
-    protected doAdd(String id, String contentType, InputStreamSource toAdd, boolean isAttachment) {
+    protected void doAdd(String id, String contentType, InputStreamSource toAdd, boolean isAttachment) {
         if (!mimeCapable) {
             throw new GrailsMailException('Message is not an instance of org.springframework.mail.javamail.MimeMessage, cannot attach bytes!')
         }
         assert multipart, 'message is not marked as "multipart"; use "multipart true" as the first line in your builder DSL'
 
-		getMessage() // ensure that helper is initialized
+        getMessage() // ensure that helper is initialized
         if (isAttachment) {
             helper.addAttachment(MimeUtility.encodeWord(id), toAdd, contentType)
         } else {
@@ -386,15 +387,15 @@ class MailMessageBuilder {
         addresses.collect { it?.toString() } as String[]
     }
 
-    static protected getDescription(SimpleMailMessage message) {
+    static protected String getDescription(SimpleMailMessage message) {
         "[${message.subject}] from [${message.from}] to ${message.to}"
     }
 
-    static protected getDescription(Message message) {
+    static protected String getDescription(Message message) {
         "[${message.subject}] from [${message.from}] to ${message.getRecipients(Message.RecipientType.TO)*.toString()}"
     }
 
-    static protected getDescription(MimeMailMessage message) {
+    static protected String getDescription(MimeMailMessage message) {
         getDescription(message.mimeMessage)
     }
 
@@ -416,6 +417,6 @@ class MailMessageBuilder {
             doAdd(it.id, it.contentType, it.toAdd, false)
         }
         message.sentDate = new Date()
-        message
+        return message
     }
 }

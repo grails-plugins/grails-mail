@@ -1,8 +1,21 @@
-repositories {
-    mavenCentral()
-    maven { url = 'https://repo.grails.org/grails/core' }
+plugins {
+    id 'groovy-gradle-plugin'
 }
+
+file('../gradle.properties').withInputStream {
+    def gradleProperties = new Properties()
+    gradleProperties.load(it)
+    gradleProperties.each { k, v -> ext.set(k, v) }
+
+}
+
+repositories {
+    maven { url = 'https://repo.grails.org/grails/core' }
+    maven { url = 'https://repository.apache.org/content/repositories/snapshots' }
+}
+
 dependencies {
-    implementation buildsrcLibs.nexusPublishGradlePlugin
-    implementation buildsrcLibs.grailsGradlePlugin
+    implementation platform("org.apache.grails:grails-bom:$grailsVersion")
+    implementation "org.asciidoctor.jvm.convert:org.asciidoctor.jvm.convert.gradle.plugin:$asciidoctorGradlePluginVersion"
+    implementation 'org.apache.grails:grails-gradle-plugins'
 }

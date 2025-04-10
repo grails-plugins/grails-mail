@@ -1,71 +1,125 @@
-plugins {
-    id 'groovy'
-    id 'java-library'
-    id 'io.github.gradle-nexus.publish-plugin'
-    id 'maven-publish'
-    id 'org.asciidoctor.jvm.convert' version '4.0.2'
-    id 'signing'
-}
-
 version = projectVersion
 group = 'org.grails.plugins'
-ext.set('grailsVersion', libs.versions.grails.get())
-ext.set('isReleaseVersion', !version.toString().endsWith('-SNAPSHOT'))
-ext.set('isSnapshot', !isReleaseVersion)
 
-apply plugin: 'org.grails.grails-plugin' // Needs to be applied after grailsVersion has been set
+apply plugin: 'groovy'
+apply plugin: 'java-library'
+apply plugin: 'org.apache.grails.gradle.grails-plugin'
+apply plugin: 'org.apache.grails.gradle.grails-publish'
 
 repositories {
     mavenCentral()
     maven { url = 'https://repo.grails.org/grails/core' }
+    maven { url = 'https://repository.apache.org/content/repositories/snapshots' }
 }
 
 dependencies {
 
-    implementation(platform(libs.grails.bom))
+    implementation(platform("org.apache.grails:grails-bom:$grailsVersion"))
 
-    compileOnly libs.servlet.api // Provided by the servlet container
-    compileOnly libs.grails.core // Provided as this is a Grails plugin
-    compileOnly libs.groovy.core // Used in public api, but Groovy is always provided
+    api 'org.apache.grails:grails-gsp', {
+        // api: GroovyPageTemplate, GroovyPagesTemplateEngine
+    }
+    api 'org.apache.grails.web:grails-web-common', {
+        // api: GroovyPagesUriService
+        // impl: GrailsWebRequest, WrappedResponseHolder
+    }
+    api 'org.springframework:spring-beans', {
+        // api: DisposableBean, InitializingBean
+        // impl: @Autowired(runtime), @Qualifier(runtime)
+    }
+    api 'org.springframework:spring-context', {
+        // api: ApplicationContext, JndiObjectFactoryBean
+        // impl: @Bean(runtime)
+    }
+    api 'org.springframework:spring-context-support', {
+        // api: JavaMailSender, MailMessage, MailSender, SimpleMailMessage
+        // impl: JavaMailSenderImpl, MimeMailMessage, MimeMessageHelper
+    }
+    api 'org.springframework:spring-core', {
+        // api: InputStreamSource
+        // impl: Assert, ByteArrayResource, FileSystemResource, PropertiesPropertySource, StringUtils
+    }
 
-    compileOnlyApi libs.javamail.api // Used in public api
+    implementation 'org.apache.grails.views:grails-web-taglib', {
+        // for taglib support
+    }
+    implementation 'org.apache.grails.web:grails-web-url-mappings', {
+        // impl: LinkGenerator
+    }
+    implementation 'org.apache.groovy:groovy-templates', {
+        // impl: Template
+    }
+    implementation 'org.eclipse.angus:jakarta.mail', {
+        // impl: SMTPMessage
+    }
+    implementation 'org.springframework:spring-web', {
+        // impl: RequestContextHolder
+    }
+    implementation 'org.springframework:spring-webmvc', {
+        // impl: DispatcherServlet, FixedLocaleResolver, RequestContextUtils
+    }
+    implementation 'org.springframework.boot:spring-boot', {
+        // impl: Bindable, Binder, @ConfigurationProperties, ConfigurationPropertySources,
+        //       @EnableConfigurationProperties(runtime)
+    }
+    implementation 'org.springframework.boot:spring-boot-autoconfigure', {
+        // impl: @AutoConfiguration(runtime), @ConditionalOnMissingBean(runtime), @ConditionalOnProperty(runtime)
+    }
 
-    api libs.spring.context // Used in public api
-    api libs.spring.contextSupport // Used in public api
+    compileOnlyApi 'jakarta.mail:jakarta.mail-api', {
+        // api: Message, Session
+        // impl: MimeMessage, MimeUtility
+    }
 
-    // These two libraries are used in public api, but not in a way
-    // that is meant to be consumed by users of the plugin.
-    // Therefore they are set to implementation to not expose unnecessarily
-    // to the compileClasspath of plugin users.
-    implementation libs.grails.gsp.core
-    implementation libs.grails.webCommon
+    compileOnly 'jakarta.inject:jakarta.inject-api', { // Used by Spring DI
+        // impl: @Inject(runtime)
+    }
+    compileOnly 'jakarta.servlet:jakarta.servlet-api', { // Provided by the servlet container
+        // impl: Cookie, HttpServletResponse, HttpServletRequest
+    }
+    compileOnly 'org.apache.grails:grails-core', { // Provided as this is a Grails plugin
+        // api: Config, GrailsApplication, GrailsPluginManager, Plugin
+        // impl: @Artefact(runtime), @Enhances(runtime)
+    }
+    compileOnly 'org.apache.groovy:groovy' // Provided as this is a Grails plugin
 
-    implementation libs.grails.gsp.webTaglib
-    implementation libs.grails.webUrlmappings
-    implementation libs.javamail.impl // Needs to be implementation (not runtimeOnly), as SMTPMessage is used in MailMessageBuilder
-    implementation libs.spring.beans
-    implementation libs.springboot.autoconfigure
+    testImplementation 'jakarta.servlet:jakarta.servlet-api', {
+        // impl: ServletContext
+    }
+    testImplementation 'org.apache.grails.testing:grails-testing-support-core', {
+        // impl: GrailsUnitTest
+    }
+    testImplementation 'org.spockframework:spock-core'
 
-    testImplementation libs.servlet.api
-    testImplementation libs.grails.testingSupport.core
-    testImplementation libs.spock.core
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
 
-    integrationTestImplementation libs.greenmail
-    integrationTestImplementation libs.groovy.xml
-    integrationTestImplementation libs.spring.web
-
-    integrationTestRuntimeOnly libs.springboot.starterTomcat
-    integrationTestRuntimeOnly libs.grails.testingSupport.web
+grailsPublish {
+    githubSlug = 'grails-plugins/grails-mail'
+    license {
+        name = 'Apache-2.0'
+    }
+    title = 'Grails Mail Plugin'
+    desc = 'Provides Mail support to a running Grails application'
+    developers = [
+        candrews: 'Craig Andrews',
+        ldaley: 'Luke Daley',
+        pledbrook: 'Peter Ledbrook',
+        jeffscottbrown: 'Jeff Brown',
+        graemerocher: 'Graeme Rocher',
+        marcpalmer: 'Marc Palmer',
+        sbglasius: 'Søren Berg Glasius',
+        matrei: 'Mattias Reichel'
+    ]
 }
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
     testLogging {
-        events 'passed', 'skipped', 'failed', 'standardError', 'standardOut'
+        events 'passed', 'skipped', 'failed'
     }
 }
 
-apply from: layout.projectDirectory.file('gradle/java-config.gradle')
-apply from: layout.projectDirectory.file('gradle/grails-plugin-config.gradle')
-apply from: layout.projectDirectory.file('gradle/documentation-config.gradle')
-apply from: layout.projectDirectory.file('gradle/publishing.gradle')
+compileJava.options.release = javaVersion.toInteger()
+
+apply from: layout.projectDirectory.file('gradle/docs-config.gradle')
