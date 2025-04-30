@@ -13,6 +13,7 @@ spock = '2.3-groovy-3.0'
 [libraries]
 grails-core = { module = 'org.grails:grails-core', version.ref = 'grails' }
 grails-gsp = { module = 'org.grails:grails-gsp', version.ref = 'gsp' }
+grails-plugin-gsp = { module = 'org.grails.plugins:gsp', version.ref = 'gsp' }
 grails-testing-support-core = { module = 'org.grails:grails-testing-support', version.ref = 'grails-testing-support' }
 grails-testing-support-web = { module = 'org.grails:grails-web-testing-support', version.ref = 'grails-testing-support' }
 grails-web-common = { module = 'org.grails:grails-web-common', version.ref = 'grails' }

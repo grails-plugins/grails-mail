@@ -39,6 +39,11 @@ dependencies {
     implementation libs.spring.beans
     implementation libs.springboot.autoconfigure
 
+    runtimeOnly libs.grails.plugin.gsp, {
+        // The GSP Plugin registers the GroovyPagesTemplateEngine and
+        // GroovyPagesUriService Beans that are injected in MailConfiguration.
+    }
+
     testImplementation libs.grails.testing.support.core
     testImplementation libs.spock.core
 
