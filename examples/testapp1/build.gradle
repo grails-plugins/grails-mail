@@ -29,9 +29,9 @@ dependencies {
     implementation 'org.apache.grails:grails-controllers'
     implementation 'org.apache.grails:grails-gsp'
 
-    testAndDevelopmentOnly 'org.webjars.npm:bootstrap:5.3.3'
-    testAndDevelopmentOnly 'org.webjars.npm:bootstrap-icons:1.11.3'
-    testAndDevelopmentOnly 'org.webjars.npm:jquery:3.7.1'
+    testAndDevelopmentOnly 'org.webjars.npm:bootstrap'
+    testAndDevelopmentOnly 'org.webjars.npm:bootstrap-icons'
+    testAndDevelopmentOnly 'org.webjars.npm:jquery'
 
     runtimeOnly 'com.bertramlabs.plugins:asset-pipeline-grails'
     runtimeOnly 'org.fusesource.jansi:jansi'
