@@ -78,10 +78,10 @@ publishing {
         repositories {
             maven {
                 credentials {
-                    username = findProperty('artifactoryPublishUsername') ?: ''
-                    password = findProperty('artifactoryPublishPassword') ?: ''
+                    username = System.getenv('MAVEN_PUBLISH_USERNAME')
+                    password = System.getenv('MAVEN_PUBLISH_PASSWORD')
                 }
-                url = uri('https://repo.grails.org/grails/plugins3-snapshots-local')
+                url = uri(System.getenv('MAVEN_PUBLISH_URL') ?: '')
             }
         }
     }
@@ -100,15 +100,12 @@ afterEvaluate {
 
 if (isReleaseVersion) {
     nexusPublishing {
-        String sonatypeUsername = findProperty('sonatypeUsername') ?: ''
-        String sonatypePassword = findProperty('sonatypePassword') ?: ''
-        String sonatypeStagingProfileId = findProperty('sonatypeStagingProfileId') ?: ''
         repositories {
             sonatype {
-                nexusUrl = uri('https://s01.oss.sonatype.org/service/local/')
-                username = sonatypeUsername
-                password = sonatypePassword
-                stagingProfileId = sonatypeStagingProfileId
+                nexusUrl = uri(System.getenv('NEXUS_PUBLISH_URL') ?: '')
+                username = System.getenv('NEXUS_PUBLISH_USERNAME')
+                password = System.getenv('NEXUS_PUBLISH_PASSWORD')
+                stagingProfileId = System.getenv('NEXUS_PUBLISH_STAGING_PROFILE_ID')
             }
         }
     }
