@@ -1,4 +1,4 @@
-name: Java CI
+name: "Java CI"
 on:
   push:
     branches:
@@ -6,74 +6,62 @@ on:
   pull_request:
     branches:
       - '[4-9]+.[0-9]+.x'
+  workflow_dispatch:
 env:
   GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
   GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
-
 jobs:
-
   test_project:
-    name: Test Project
+    name: "Test Project"
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: true
       matrix:
         java: [11, 17]
-
     steps:
-      - uses: actions/checkout@v4
-      - uses: gradle/wrapper-validation-action@v2
-      - uses: actions/setup-java@v4
+      - name: "📥 Checkout repository"
+        uses: actions/checkout@v4
+      - name: "☕️ Setup JDK"
+        uses: actions/setup-java@v4
         with:
-          distribution: temurin
           java-version: ${{ matrix.java }}
-      - uses: gradle/actions/setup-gradle@v3
-      - name: Run tests
-        env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
+          distribution: liberica
+      - name: "🐘 Setup Gradle"
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
+      - name: "🏃 Run tests"
         run: ./gradlew check
-
   publish_snapshot:
-    name: Build Project and Publish Snapshot release
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    name: "Build Project and Publish Snapshot release"
+    needs: test_project
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: gradle/wrapper-validation-action@v2
-      - uses: actions/setup-java@v4
-        with: { java-version: 11, distribution: temurin }
-      - uses: gradle/actions/setup-gradle@v3
-
-      - name: Build Project
+      - name: "📥 Checkout repository"
+        uses: actions/checkout@v4
+      - name: "☕️ Setup JDK"
+        uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: liberica
+      - name: "🐘 Setup Gradle"
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
+      - name: "📤 Publish Snapshot version to Artifactory (repo.grails.org)"
         env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
-        run: ./gradlew build
-
-      - name: Publish Snapshot version to Artifactory (repo.grails.org)
-        if: success()
-        env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
-          ORG_GRADLE_PROJECT_artifactoryPublishUsername: ${{ secrets.ARTIFACTORY_USERNAME }}
-          ORG_GRADLE_PROJECT_artifactoryPublishPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
-        run: >
-          ./gradlew
-          -Dorg.gradle.internal.publish.checksums.insecure=true
-          publish
-
-      - name: Generate Snapshot Documentation
-        if: success()
-        env:
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
+          GRAILS_PUBLISH_RELEASE: 'false'
+          MAVEN_PUBLISH_USERNAME: ${{ secrets.MAVEN_PUBLISH_USERNAME }}
+          MAVEN_PUBLISH_PASSWORD: ${{ secrets.MAVEN_PUBLISH_PASSWORD }}
+          MAVEN_PUBLISH_URL: 'https://repo.grails.org/artifactory/plugins3-snapshots-local'
+        run: ./gradlew publish
+      - name: "📖 Generate Snapshot Documentation"
         run: ./gradlew docs
-
-      - name: Publish Snapshot Documentation to Github Pages
-        if: success()
-        uses: micronaut-projects/github-pages-deploy-action@grails
+      - name: "📤 Publish Snapshot Documentation to Github Pages"
+        uses: apache/grails-github-actions/deploy-github-pages@asf
         env:
-          BRANCH: gh-pages
-          COMMIT_EMAIL: ${{ env.GIT_USER_EMAIL }}
-          COMMIT_NAME: ${{ env.GIT_USER_NAME }}
-          FOLDER: build/docs/manual
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GRADLE_PUBLISH_RELEASE: 'false'
+          SOURCE_FOLDER: build/docs
