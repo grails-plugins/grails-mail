@@ -15,7 +15,7 @@ publishing {
             pom {
                 name = 'Grails Mail plugin'
                 description = 'Provides Mail support to a running Grails application'
-                url = 'https://github.com/grails/grails-mail'
+                url = 'https://github.com/grails-plugins/grails-mail'
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
@@ -65,9 +65,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:git://github.com/grails/grails-mail.git'
-                    developerConnection = 'scm:git:ssh://github.com:grails/grails-mail.git'
-                    url = 'https://github.com/grails/grails-mail'
+                    connection = 'scm:git:git://github.com/grails-plugins/grails-mail.git'
+                    developerConnection = 'scm:git:ssh://github.com:grails-plugins/grails-mail.git'
+                    url = 'https://github.com/grails-plugins/grails-mail'
                 }
             }
             // dependency management shouldn't be included
