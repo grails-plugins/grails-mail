@@ -1,23 +1,26 @@
 plugins {
-    id 'com.gradle.develocity' version '3.17.1'
-    id 'com.gradle.common-custom-user-data-gradle-plugin' version '2.0'
+    id 'com.gradle.develocity' version '4.0.2'
+    id 'com.gradle.common-custom-user-data-gradle-plugin' version '2.3'
 }
 
-def isCI = System.getenv('CI') == 'true'
+def isCI = System.getenv().containsKey('CI')
+def isLocal = !isCI
 
 develocity {
     server = 'https://ge.grails.org'
     buildScan {
-        publishing.onlyIf { isCI }
-        uploadInBackground = !isCI
+        tag('grails-plugins')
+        tag('grails-mail')
+        publishing.onlyIf { it.authenticated }
+        uploadInBackground = isLocal
     }
 }
 
 buildCache {
-    local { enabled = !isCI }
+    local { enabled = isLocal }
     remote(develocity.buildCache) {
         enabled = true
-        push = isCI && System.getenv('DEVELOCITY_ACCESS_KEY')
+        push = isCI
     }
 }
 

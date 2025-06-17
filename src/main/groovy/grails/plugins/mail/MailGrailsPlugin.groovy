@@ -53,8 +53,8 @@ sendMail {
         [name: 'Mattias Reichel', email: 'mattias.reichel@gmail.com']
     ]
 
-    def issueManagement = [system: 'GitHub', url: 'https://github.com/grails/grails-mail/issues']
-    def scm = [url: 'https://github.com/grails/grails-mail']
+    def issueManagement = [system: 'GitHub', url: 'https://github.com/grails-plugins/grails-mail/issues']
+    def scm = [url: 'https://github.com/grails-plugins/grails-mail']
 
     def observe = ['controllers', 'services']
 

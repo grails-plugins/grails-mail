@@ -1,12 +1,12 @@
 [versions]
-grails = '6.2.0'
-grails-testing-support = '3.2.1'
+grails = '6.2.3'
+grails-testing-support = '3.2.2'
 greenmail = '1.6.15'
-groovy = '3.0.21'
+groovy = '3.0.25'
 gsp = '6.2.1'
 javamail = '1.6.2'
 slf4j = '1.7.36'
-spring = '5.3.34'
+spring = '5.3.39'
 springboot = '2.7.18'
 spock = '2.3-groovy-3.0'
 
