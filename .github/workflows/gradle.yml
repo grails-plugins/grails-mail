@@ -34,7 +34,7 @@ jobs:
       - name: "🏃 Run tests"
         run: ./gradlew check
   publish_snapshot:
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.repository_owner == 'grails-plugins'
     name: "Build Project and Publish Snapshot release"
     needs: test_project
     runs-on: ubuntu-24.04
