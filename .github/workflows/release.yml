@@ -1,7 +1,7 @@
 name: Release
 on:
   release:
-    types: [published]
+    types: [ published ]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   JAVA_VERSION: '17.0.15' # this must be a specific version for reproducible builds
@@ -49,13 +49,18 @@ jobs:
         uses: grails/github-actions/pre-release@asf
         env:
           RELEASE_VERSION: ${{ steps.release_version.outputs.value }}
-      - name: "🧩 Run Assemble"
-        id: assemble
-        run: ./gradlew -U assemble
       - name: "🔐 Generate key file for artifact signing"
         env:
           SECRING_FILE: ${{ secrets.SECRING_FILE }}
         run: echo $SECRING_FILE | base64 -d > ${{ github.workspace }}/secring.gpg
+      - name: "🧩 Run Assemble"
+        id: assemble
+        run: |
+          ./gradlew -U assemble -Psigning.secretKeyRingFile=${{ github.workspace }}/secring.gpg
+        env:
+          GRAILS_PUBLISH_RELEASE: 'true'
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
       - name: "📤 Publish to Maven Central"
         env:
           GRAILS_PUBLISH_RELEASE: 'true'

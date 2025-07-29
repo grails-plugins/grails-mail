@@ -1,3 +1,7 @@
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+
 version = projectVersion
 group = 'org.grails.plugins'
 
@@ -15,6 +19,16 @@ repositories {
             includeVersionByRegex('org[.]apache[.](grails|groovy).*', '.*', '.*-SNAPSHOT')
         }
     }
+}
+
+ext {
+    buildInstant = java.util.Optional.ofNullable(System.getenv("SOURCE_DATE_EPOCH"))
+            .filter(s -> !s.isEmpty())
+            .map(Long::parseLong)
+            .map(Instant::ofEpochSecond)
+            .orElseGet(Instant::now)
+    formattedBuildDate = DateTimeFormatter.ISO_INSTANT.format(buildInstant)
+    buildDate = (buildInstant as Instant).atZone(ZoneOffset.UTC) // for reproducible builds
 }
 
 dependencies {
