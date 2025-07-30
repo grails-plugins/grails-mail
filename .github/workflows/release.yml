@@ -57,7 +57,7 @@ jobs:
       - name: "🧩 Run Assemble"
         id: assemble
         run: |
-          ./gradlew -U assemble -Psigning.secretKeyRingFile=${{ github.workspace }}/secring.gpg
+          ./gradlew -U assemble -Psigning.secretKeyRingFile=${{ github.workspace }}/secring.gpg -Psigning.keyId=${{ secrets.SIGNING_KEY }}
         env:
           GRAILS_PUBLISH_RELEASE: 'true'
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
@@ -73,6 +73,7 @@ jobs:
           SIGNING_PASSPHRASE: ${{ secrets.SIGNING_PASSPHRASE }}
         run: >
           ./gradlew
+          -Psigning.keyId=${{ secrets.SIGNING_KEY }}
           -Psigning.secretKeyRingFile=${{ github.workspace }}/secring.gpg
           publishMavenPublicationToSonatypeRepository
           closeSonatypeStagingRepository
