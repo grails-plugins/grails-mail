@@ -37,13 +37,13 @@ import java.util.concurrent.TimeUnit
 @CompileStatic
 class MailService implements InitializingBean, DisposableBean {
 
-    private final MailConfigurationProperties mailConfigurationProperties
-    private final MailMessageBuilderFactory mailMessageBuilderFactory
+    protected MailConfigurationProperties mailConfigurationProperties
+    protected MailMessageBuilderFactory mailMessageBuilderFactory
 
-    private ThreadPoolExecutor mailExecutorService
+    protected ThreadPoolExecutor mailExecutorService
 
-    private static final Integer DEFAULT_POOL_SIZE = 5
-    private static final Bindable<MailConfigurationProperties> CONFIG_BINDABLE = Bindable.of(MailConfigurationProperties)
+    protected static final Integer DEFAULT_POOL_SIZE = 5
+    protected static final Bindable<MailConfigurationProperties> CONFIG_BINDABLE = Bindable.of(MailConfigurationProperties)
 
     MailService(
             MailConfigurationProperties mailConfigurationProperties,
