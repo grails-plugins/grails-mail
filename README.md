@@ -17,6 +17,21 @@ mailService.sendMail {
 }
 ```
 
+
+## Installation
+
+Add a dependency in build.gradle
+
+```groovy
+repositories {
+    maven { url 'https://repo.grails.org/grails/core/'}
+}
+
+dependencies {
+    runtimeOnly 'org.grails.plugins:grails-mail:5.0.3'
+}
+```
+
 ## Documentation
 
 - [Latest Release](https://grails-plugins.github.io/grails-mail/latest/)
